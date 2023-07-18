@@ -1,7 +1,8 @@
 <a name="readme-top"></a>
 
 
-
+# IMDB Sentiment Analysis
+## Table of Contents
 <!-- TABLE OF CONTENTS -->
 <ol>
   <li>
