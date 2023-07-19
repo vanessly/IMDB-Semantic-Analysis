@@ -37,7 +37,7 @@ In this project, I created a Recurrent Neural Network (RNN) that takes in movie 
   </li>
   <li><a href="#conclusion-and-future-directions">Conclusion and future directions</a></li>
   <li><a href="#contact">Contact</a></li>
-  <li><a href="#Acknowledgements">Contact</a></li>
+  <li><a href="#acknowledgements">Acknowledgements</a></li>
 </ol>
 
 
@@ -49,7 +49,29 @@ Unfortunately, we cannot just use the raw dataset and feed it into our model. Th
 
 
 ### Cleaning Data
-
+```
+def clean_text(data):
+    # Make all words lowercase
+    data = data.lower()
+    
+    # Remove line breaks
+    data = data.replace("<br /><br />", "")
+    
+    # Remove distracting single quotes
+    data = re.sub("\'", "", data)
+    return data
+```
+```
+temp = []
+# Turning the pandas dataframe "Series" to a list
+data_to_list = r['review'].values.tolist()
+for i in range(len(data_to_list)):
+    temp.append(clean_text(data_to_list[i]))
+```
+#### Pre-cleaned data
+```
+Probably my all-time favorite movie, a story of selflessness, sacrifice and dedication to a noble cause, but it's not preachy or boring. It just never gets old, despite my having seen it some 15 or more times in the last 25 years. Paul Lukas' performance brings tears to my eyes, and Bette Davis, in one of her very few truly sympathetic roles, is a delight. The kids are, as grandma says, more like "dressed-up midgets" than children, but that only makes them more fun to watch. And the mother's slow awakening to what's happening in the world and under her own roof is believable and startling. If I had a dozen thumbs, they'd all be "up" for this movie.
+```
 The first step is to "clean" the data and extract only the most important variables from the text. I performed these common text preprocessing steps:
 <ul>
   <li>Removing punctuation</li>
