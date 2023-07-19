@@ -95,29 +95,31 @@ This RNN model is relatively simple with only 3 layers; however, each layer is v
   </li>
   <li>Bidirectional LSTM Layer
     <ul>
-      <li> In the Bidirectional LSTM layer, we allow the LSTM layer to process the input sequence in both forward and backward directions, effectively capturing dependencies in both directions. The LSTM layer has 20 units (or cells), meaning it has 20 memory cells to remember information over time. The dropout parameter is set to 0.5, indicating that a dropout layer will be applied after the LSTM layer, which helps prevent overfitting by randomly setting a fraction of input units to zero during training.
+      <li> An LSTM (long short-term memory) layers is used. In vanilla RNNs, gradients calculated through multiple time steps during back propogation and can either grow exponentially (exploding gradients) or diminish rapidly (vanishing gradients). This is bad, because these problems can hinder the model's long-term learning. Thus, LSTMs are favored, since their structure creates a "gradient highway" that allows gradients to mintain their value over multiple time steps without significant loss or gain, thus solving the vanishing/exploding gradient problem. We go one step further by creating a Bidirectional layer, which allows the LSTM layer to process the input sequence in both forward and backward directions. Thus, the layer can more effectively capture sequential relationships in both directions compared to a unidirectional LSTM layer.
+      </li>
+      <li> The Bidirectional LSTM layer has 20 units (or cells), meaning it has 20 memory cells to remember information over time. Dropout, a regularization technique, helps prevent overfitting by randomly and temporarily "deleting" a fraction of input units during training. The dropout parameter is set to 0.5, meaning a random 50% of the input units will be deleted during each propogation. 
       </li>
     </ul>
   </li>
   <li>Fully connected layer
     <ul>
-      <li>The Dense layer is a fully connected layer, where each neuron is connected to every output from the previous layer. It has a single neuron because the task is binary classification, and a sigmoid activation function is used to produce an output between 0 and 1, representing the probability of the input belonging to the positive class (since the activation is "sigmoid"). We use the sigmoid activation function because the output is binary.
+      <li>The Dense layer is a fully connected layer, where each neuron is connected to every output from the previous layer. It has a single neuron because the task is binary classification, and a sigmoid activation function is used to produce an output between 0 and 1, representing the probability of the input belonging to the positive class (since the activation is "sigmoid").
       </li>  
     </ul>
   </li>
 </ol>
-When fitting the model, I utilized a batch size of 128 for 10 Epochs. I also monitored the model's performance on a validation set during training. The model's performance on the validation data is used to monitor how well the model generalizes to new, unseen data and helps in preventing overfitting. If the validation loss starts to increase or stops improving, I utilize “early stopping” to stop the training early which further prevents overfitting.
+When fitting the model, I utilized a batch size of 128 for 10 Epochs. I also monitored the model's performance on a validation set during training. The model's performance on the validation data is used to monitor how well the model generalizes to new, unseen data. If the validation loss starts to increase or stops improving, I utilize “early stopping”, another regularizaiton technique, to stop the training early which further decreases overfitting.
 
 ## Model Evaluation
 
-The model reached a final test accuracy of 0.8826, which is slightly lower than the highest training accuracy of 0.9118. Due to the early stopping, the model halted training after Epoch 4. 
+The model reached a final test accuracy of `0.8826`, which is slightly lower than the highest training accuracy of `0.9118`. Due to the early stopping, the model halted training after Epoch 4. 
 
 ### Confusion matrix
 I computed the confusion matrix based on the predictions made by my model on the test dataset. The confusion matrix showed the model correctly classified 5513 positive reviews and 5520 negative reviews, yielding accuracies of `87.63%` and `88.90%` accuracy respectively. 
 
 ## Conclusion and future directions
 
-In this project, a Recurrent Neural Network (RNN) was successfully developed for sentiment analysis on movie reviews from IMDB. The model demonstrated promising performance with a final test accuracy of 88.26%. By leveraging the power of NLP and deep learning techniques, we were able to efficiently process and analyze large volumes of textual data, providing valuable insights into customer sentiments towards products.
+In this project, a Recurrent Neural Network (RNN) was successfully developed for sentiment analysis on movie reviews from IMDB. The model demonstrated promising performance with a final test accuracy of   88.26%  . By leveraging the power of NLP and deep learning techniques, I was able to efficiently process and analyze large volumes of textual data, providing valuable insights into customer sentiments towards products.
 
 With the model being incredibly simple, I hope to create a more complex RNN to achieve at least 95% test accuracy, as well as fine-tuning hyper parameters. Additionally, I am curious to see how effectively my model can categorize reviews into increasing categories, such as including a “neutral” output or even classifying reviews into their respective 1-5 star rating. 
 
