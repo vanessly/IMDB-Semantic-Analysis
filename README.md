@@ -129,6 +129,5 @@ CC Ly - [LinkedIn](https://www.linkedin.com/in/vanessly/) - vanessly@umich.edu
 
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* Lucian Leahu, my professor for my Artifical Neural Networks course. Thank you for igniting my newfound interest in machine learning, and for being such an awesome instructor! 
+* Nicolai Jacobsen, an assistant professor for my Artificial Neural Networks course. Thank you for helping me with CS career things, and helping me get out of my own head and not overthink.
