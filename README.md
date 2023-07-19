@@ -55,7 +55,6 @@ The first step is to "clean" the data and extract only the most important variab
   <li>Lowercase text</li>
   <li>Removing stop words
     <ul>
-      <li>Removing stop words</li>
       <li> Stop words are the most common words in the English language such as “I”, “have”, “are”, etc. Alone, these words do not hold any significant meaning, and can thus skew our sentiment analysis. So, we remove all instances of these stop words.
       </li>
     </ul>
@@ -67,51 +66,47 @@ The first step is to "clean" the data and extract only the most important variab
     </ul>
   </li>
 </ul>
+Additionally, this specific dataset has multiple instances of “<br>”, which were removed as well. 
 
+## Data Transformation
 
-<!-- GETTING STARTED -->
-## Libraries
+Now that we have cleaned the data, we must transform the raw text into a form that deep learning models can understand. We do this through “Tokenization”, which breaks down text into individual words or “tokens”. These tokens are then converted to sequences of integers.
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+We do this using `Keras` tokenizer. In this particular instance of tokenization, `max_words = 5000` means that only the most frequent 5000 words will be kept, and less frequent words are discarded, and `max_len = 200` means that the maximum length of the sentences is 200 words. If a sentence is longer than 200, it will be truncated, and if it's shorter, it will be padded to reach the desired length.
 
-### Prerequisites
+### Encoding the output
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+An important preprocessing step is label encoding the output, which means representing categorical output variables with numerical values. In this context, “positive” and “negative” sentiments will be represented as “1” and “0” respectively. 
 
-### Installation
+We do this using the LabelEncoder class from `Scikit learn (Sklearn)`, which automatically separates each output to its respective numerical representation.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+### Data splitting
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Finally, now that the input data is fully preprocessed and the output is encoded, we can split the dataset into its training and testing subsets using the train_test_split class from `Sklearn`.
 
+## Building the Model
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+This RNN model is relatively simple with only 3 layers; however, each layer is vital to the RNN and serves a specific purpose.  
+<ol>
+  <li>Embedding layer
+    <ul>
+        <li> In the embedding layer, we convert words into dense vectors that pack information in few dimensions. Word embeddings represent words in a continuous vector space, where similar words are located closer to each other, meaning that words with similar meanings will have similar vector representations, which helps the model understand the context and identify sentiment-related words more effectively. The max_words parameter represents the size of the vocabulary, and each word is represented as a vector of length 40 (embedding dimension). The input_length parameter sets the length of the input sequences to be fed into the model, which should be max_len.
+        </li>
+    </ul>
+  </li>
+  <li>Bidirectional LSTM Layer
+    <ul>
+      <li> In the Bidirectional LSTM layer, we allow the LSTM layer to process the input sequence in both forward and backward directions, effectively capturing dependencies in both directions. The LSTM layer has 20 units (or cells), meaning it has 20 memory cells to remember information over time. The dropout parameter is set to 0.5, indicating that a dropout layer will be applied after the LSTM layer, which helps prevent overfitting by randomly setting a fraction of input units to zero during training.
+      </li>
+    </ul>
+  </li>
+  <li>Fully connected layer
+    <ul>
+      <li>The Dense layer is a fully connected layer, where each neuron is connected to every output from the previous layer. It has a single neuron because the task is binary classification, and a sigmoid activation function is used to produce an output between 0 and 1, representing the probability of the input belonging to the positive class (since the activation is "sigmoid"). We use the sigmoid activation function because the output is binary.
+      </li>  
+    </ul>
+  </li>
+</ol>
 
 
 <!-- ROADMAP -->
