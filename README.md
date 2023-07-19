@@ -127,7 +127,7 @@ sequences = tokenizer.texts_to_sequences(data)
 reviews = pad_sequences(sequences, maxlen=max_len)
 ```
 
-We do this using `Keras` tokenizer. In this particular instance of tokenization, `max_words = 5000` means that only the most frequent 5000 words will be kept, and less frequent words are discarded, and `max_len = 200` means that the maximum length of the sentences is 200 words. If a sentence is longer than 200, it will be truncated, and if it's shorter, it will be padded to reach the desired length.
+We do this using `Keras` tokenizer. In this particular instance of tokenization, `max_words = 5000` means that only the most frequent 5,000 words will be kept, and less frequent words are discarded. `max_len = 200` means that the maximum length of the sentences is 200 words. If a sentence is longer than 200, it will be truncated, and if it's shorter, it will be padded to reach the desired length.
 #### After tokenizing
 
 ```
