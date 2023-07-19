@@ -111,6 +111,8 @@ def sentence_to_words(sentences):
     for sentence in sentences:
         yield(gensim.utils.simple_preprocess(str(sentence), deacc=True))
 ```
+
+##### Fully cleaned data
 ```
 probabl all tim favorit movie stori selflessness sacrific dedic nobl cause preachi boring it never get old despit seen time last years paul luka perform bring tear eyes bett davis one truli sympathet roles delight the kid are grandma says like dressed up midgets children make fun watch and mother slow awaken what happen world roof believ startling if dozen thumbs theyd up movie
 ```
