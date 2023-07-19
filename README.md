@@ -2,7 +2,7 @@
 
 
 # IMDB Sentiment Analysis
-![plot](./images/sentiment_analysis.jpg | width=100)
+<img src="./images/sentiment_analysis.jpg" width="50%" height="50%">
 ## Project Description
 Imagine a company you work for sells widely-used products, and customers rightfully leave reviews based on their experience with those products. Now imagine your job is to classify each review, and determine the pros and cons of each product to improve upon it. But now you have a very mind-numbing task ahead of you: to manually scan through thousands of reviews. Doesn't sound too fun right? This is where Sentiment Analysis is effective.
 
