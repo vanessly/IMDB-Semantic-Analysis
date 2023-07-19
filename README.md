@@ -39,7 +39,6 @@ In this project, I created a Recurrent Neural Network (RNN) that takes in movie 
 </ol>
 
 
-<!-- ABOUT THE PROJECT -->
 ## Data Preprocessing
 
 This project uses this Kaggle dataset of 50,000 movie reviews from IMDB. The dataset is a `.csv` file where the first column is the review text and the second column is whether it is "positive" or "negative.
@@ -68,7 +67,7 @@ The first step is to "clean" the data and extract only the most important variab
 </ul>
 Additionally, this specific dataset has multiple instances of “<br>”, which were removed as well. 
 
-## Data Transformation
+### Data Transformation
 
 Now that we have cleaned the data, we must transform the raw text into a form that deep learning models can understand. We do this through “Tokenization”, which breaks down text into individual words or “tokens”. These tokens are then converted to sequences of integers.
 
@@ -107,29 +106,19 @@ This RNN model is relatively simple with only 3 layers; however, each layer is v
     </ul>
   </li>
 </ol>
+When fitting the model, I utilized a batch size of 128 for 10 Epochs. I also monitored the model's performance on a validation set during training. The model's performance on the validation data is used to monitor how well the model generalizes to new, unseen data and helps in preventing overfitting. If the validation loss starts to increase or stops improving, I utilize “early stopping” to stop the training early which further prevents overfitting.
+
+## Model Evaluation
+
+The model reached a final test accuracy of 0.8826, which is slightly lower than the highest training accuracy of 0.9118. Due to the early stopping, the model halted training after Epoch 4. 
+
+### Confusion matrix
+I computed the confusion matrix based on the predictions made by my model on the test dataset. The confusion matrix showed the model correctly classified 5513 positive reviews and 5520 negative reviews, yielding accuracies of `87.63%` and `88.90%` accuracy respectively. 
+
+## Conclusion and future directions
 
 
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+With the model being incredibly simple, I hope to create a more complex RNN to achieve at least 95% test accuracy, as well as fine-tuning hyper parameters. Additionally, I am curious to see how effectively my model can categorize reviews into increasing categories, such as including a “neutral” output or even classifying reviews into their respective 1-5 star rating. 
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
