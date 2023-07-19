@@ -13,24 +13,29 @@ In this project, I created a Recurrent Neural Network (RNN) that takes in movie 
 <!-- TABLE OF CONTENTS -->
 <ol>
   <li>
-    <a href="#about-the-project">About The Project</a>
+    <a href="#data-preprocessing">Data Preprocessing</a>
     <ul>
-      <li><a href="#built-with">Built With</a></li>
+      <li><a href="#cleaning-data">Cleaning data</a></li>
+      <li><a href="#data-transformation">Data transformation</a></li>
+      <li><a href="#encoding-the-output">Encoding the Output</a></li>
+      <li><a href="#data-splitting">Data splitting</a></li>
     </ul>
   </li>
   <li>
-    <a href="#getting-started">Getting Started</a>
+    <a href="#building-the-model">Building the Model</a>
     <ul>
-      <li><a href="#prerequisites">Prerequisites</a></li>
-      <li><a href="#installation">Installation</a></li>
+      <li><a href="#embedding-layer">Embedding layer</a></li>
+      <li><a href="#bidirectional-lstm-layer">Bidirectional LSTM layer</a></li>
+      <li><a href="#fully-connected-layer">Fully connected layer</a></li>
     </ul>
   </li>
-  <li><a href="#usage">Usage</a></li>
-  <li><a href="#roadmap">Roadmap</a></li>
-  <li><a href="#contributing">Contributing</a></li>
-  <li><a href="#license">License</a></li>
-  <li><a href="#contact">Contact</a></li>
-  <li><a href="#acknowledgments">Acknowledgments</a></li>
+  <li>
+    <a href="#model-evaluation">Model Evaluation</a>
+    <ul>
+      <li><a href="#confusion-matrix">Confusion matrix</a></li>
+    </ul>
+  </li>
+  <li><a href="#conclusion-and-future-directions">Conclusion and future directions</a></li>
 </ol>
 
 
