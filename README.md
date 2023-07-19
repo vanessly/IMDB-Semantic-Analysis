@@ -39,7 +39,7 @@ In this project, I created a Recurrent Neural Network (RNN) that takes in movie 
   </li>
   <li><a href="#conclusion-and-future-directions">Conclusion and future directions</a></li>
   <li><a href="#contact">Contact</a></li>
-  <li><a href="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#acknowledgments">Acknowledgments</a></li>
 </ol>
 
 
