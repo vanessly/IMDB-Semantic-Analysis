@@ -76,12 +76,8 @@ Additionally, this specific dataset has multiple instances of line breaks, which
 
 #### Stop words and stemming
 ```
-# Stop words will remove filler words
-# Stemmer removes word endings
 stop_words = set(stopwords.words('english'))
 stemmer = SnowballStemmer("english")
-```
-```
 f_ = lambda x: ' '.join([stemmer.stem(word) for word in x.split() 
                              if word not in (sw)])
 ```
