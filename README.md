@@ -72,7 +72,7 @@ The first step is to "clean" the data and extract only the most important variab
     </ul>
   </li>
 </ul>
-Additionally, this specific dataset has multiple instances of “<br>”, which were removed as well. 
+Additionally, this specific dataset has multiple instances of line breaks, which were removed as well. 
 
 #### Stop words and stemming
 ```
