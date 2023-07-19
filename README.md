@@ -74,6 +74,22 @@ The first step is to "clean" the data and extract only the most important variab
 </ul>
 Additionally, this specific dataset has multiple instances of “<br>”, which were removed as well. 
 
+#### Stop words and stemming
+```
+# Stop words will remove filler words
+# Stemmer removes word endings
+stop_words = set(stopwords.words('english'))
+stemmer = SnowballStemmer("english")
+```
+```
+f_ = lambda x: ' '.join([stemmer.stem(word) for word in x.split() 
+                             if word not in (sw)])
+```
+```
+probabl all-tim favorit movie, stori selflessness, sacrific dedic nobl cause, preachi boring. it never get old, despit seen 15 time last 25 years. paul luka perform bring tear eyes, bett davis, one truli sympathet roles, delight. the kid are, grandma says, like "dressed-up midgets" children, make fun watch. and mother slow awaken what happen world roof believ startling. if i dozen thumbs, they'd "up" movie.
+```
+#### clean_text function
+
 ```
 def clean_text(data):
     # Make all words lowercase
@@ -86,39 +102,94 @@ def clean_text(data):
     data = re.sub("\'", "", data)
     return data
 ```
-```
-# Stop words will remove filler words
-# Stemmer removes word endings
-stop_words = set(stopwords.words('english'))
-stemmer = SnowballStemmer("english")
-```
-```
-f_ = lambda x: ' '.join([stemmer.stem(word) for word in x.split() 
-                             if word not in (sw)])
-```
+
+#### Removing punctuation and repeating words
 ```
 ## Removes punctuation and repeating words
 def sentence_to_words(sentences):
     for sentence in sentences:
         yield(gensim.utils.simple_preprocess(str(sentence), deacc=True))
 ```
+```
+probabl all tim favorit movie stori selflessness sacrific dedic nobl cause preachi boring it never get old despit seen time last years paul luka perform bring tear eyes bett davis one truli sympathet roles delight the kid are grandma says like dressed up midgets children make fun watch and mother slow awaken what happen world roof believ startling if dozen thumbs theyd up movie
+```
 ### Data Transformation
 
 Now that we have cleaned the data, we must transform the raw text into a form that deep learning models can understand. We do this through “Tokenization”, which breaks down text into individual words or “tokens”. These tokens are then converted to sequences of integers.
 
+```
+max_words = 5000
+max_len = 200
+
+# Tokenizing (breaking down text into sequences of integers)
+tokenizer = Tokenizer(num_words=max_words)
+tokenizer.fit_on_texts(data)
+sequences = tokenizer.texts_to_sequences(data)
+reviews = pad_sequences(sequences, maxlen=max_len)
+```
+
 We do this using `Keras` tokenizer. In this particular instance of tokenization, `max_words = 5000` means that only the most frequent 5000 words will be kept, and less frequent words are discarded, and `max_len = 200` means that the maximum length of the sentences is 200 words. If a sentence is longer than 200, it will be truncated, and if it's shorter, it will be padded to reach the desired length.
+#### After tokenizing
+
+```
+[[   0    0    0 ...  527 3612  424]
+ [   0    0    0 ...  444   20  150]
+ [   0    0    0 ...   30   12  992]
+ ...
+ [   0    0    0 ...  306  458 3493]
+ [   0    0    0 ... 1859  358  539]
+ [   0    0    0 ...  974  604   15]]
+```
 
 ### Encoding the output
 
 An important preprocessing step is label encoding the output, which means representing categorical output variables with numerical values. In this context, “positive” and “negative” sentiments will be represented as “1” and “0” respectively. 
 
+```
+le = LabelEncoder()
+y = le.fit_transform(y)
+```
+
 We do this using the LabelEncoder class from `Scikit learn (Sklearn)`, which automatically separates each output to its respective numerical representation.
+
+#### Before encoding
+```
+['positive' 'positive' 'positive' ... 'negative' 'negative' 'negative']
+```
+#### After encoding
+```
+[1 1 1 ... 0 0 0]
+```
+
 
 ### Data splitting
 
 Finally, now that the input data is fully preprocessed and the output is encoded, we can split the dataset into its training and testing subsets using the train_test_split class from `Sklearn`.
 
+```
+X_train, X_test, y_train, y_test = train_test_split(reviews, y, random_state=0)
+```
+
 ## Building the Model
+
+```
+Model: "sequential_22"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ embedding_23 (Embedding)    (None, 200, 40)           200000    
+                                                                 
+ bidirectional_22 (Bidirecti  (None, 40)               9760      
+ onal)                                                           
+                                                                 
+ dense_22 (Dense)            (None, 1)                 41        
+                                                                 
+=================================================================
+Total params: 209,801
+Trainable params: 209,801
+Non-trainable params: 0
+_________________________________________________________________
+```
 
 This RNN model is relatively simple with only 3 layers; however, each layer is vital to the RNN and serves a specific purpose.  
 <ol>
@@ -143,14 +214,42 @@ This RNN model is relatively simple with only 3 layers; however, each layer is v
     </ul>
   </li>
 </ol>
+
+```
+model.fit(X_train, y_train, epochs=10, batch_size=128, validation_data=(X_test, y_test), callbacks=[early_stopping])
+```
 When fitting the model, I utilized a batch size of 128 for 10 Epochs. I also monitored the model's performance on a validation set during training. The model's performance on the validation data is used to monitor how well the model generalizes to new, unseen data. If the validation loss starts to increase or stops improving, I utilize “early stopping”, another regularizaiton technique, to stop the training early which further decreases overfitting.
+
+```
+Epoch 1/10
+293/293 [==============================] - 89s 293ms/step - loss: 0.4275 - accuracy: 0.8072 - val_loss: 0.3053 - val_accuracy: 0.8763
+Epoch 2/10
+293/293 [==============================] - 89s 303ms/step - loss: 0.2745 - accuracy: 0.8911 - val_loss: 0.2905 - val_accuracy: 0.8826
+Epoch 3/10
+293/293 [==============================] - 106s 362ms/step - loss: 0.2437 - accuracy: 0.9067 - val_loss: 0.2977 - val_accuracy: 0.8808
+Epoch 4/10
+293/293 [==============================] - 64s 219ms/step - loss: 0.2254 - accuracy: 0.9118 - val_loss: 0.2976 - val_accuracy: 0.8791
+```
 
 ## Model Evaluation
 
 The model reached a final test accuracy of `0.8826`, which is slightly lower than the highest training accuracy of `0.9118`. Due to the early stopping, the model halted training after Epoch 4. 
 
 ### Confusion matrix
-I computed the confusion matrix based on the predictions made by my model on the test dataset. The confusion matrix showed the model correctly classified 5513 positive reviews and 5520 negative reviews, yielding accuracies of `87.63%` and `88.90%` accuracy respectively. 
+I computed and displayed the confusion matrix based on the predictions made by my model on the test dataset. The confusion matrix showed the model correctly classified 5513 positive reviews and 5520 negative reviews, yielding accuracies of `87.63%` and `88.90%` accuracy respectively. 
+
+```
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:", cm)
+```
+```
+display = ConfusionMatrixDisplay(confusion_matrix = cm, display_labels = ("positive", "negative"))
+display.plot()
+plt.show()
+```
+![plot](./images/confusion_matrix.png)
+
+
 
 ## Conclusion and future directions
 
