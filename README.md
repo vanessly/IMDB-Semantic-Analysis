@@ -85,6 +85,7 @@ stemmer = SnowballStemmer("english")
 f_ = lambda x: ' '.join([stemmer.stem(word) for word in x.split() 
                              if word not in (sw)])
 ```
+##### After removing stop words
 ```
 probabl all-tim favorit movie, stori selflessness, sacrific dedic nobl cause, preachi boring. it never get old, despit seen 15 time last 25 years. paul luka perform bring tear eyes, bett davis, one truli sympathet roles, delight. the kid are, grandma says, like "dressed-up midgets" children, make fun watch. and mother slow awaken what happen world roof believ startling. if i dozen thumbs, they'd "up" movie.
 ```
