@@ -248,7 +248,7 @@ display = ConfusionMatrixDisplay(confusion_matrix = cm, display_labels = ("posit
 display.plot()
 plt.show()
 ```
-![plot](./images/confusion_matrix.jpg)
+<img src="./images/confusion_matrix.jpg" width="50%" height="50%">
 
 
 
